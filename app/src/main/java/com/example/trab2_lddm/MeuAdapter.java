@@ -1,12 +1,17 @@
 package com.example.trab2_lddm;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -46,9 +51,31 @@ public class MeuAdapter extends RecyclerView.Adapter<MeuAdapter.MeuViewHolder> {
         viewHolder.editBtn.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nova = "falta ler";
-                //leitura de uma String :)
-                filhosAtuais.get(i).setContent(nova);
+                AlertDialog.Builder alert = new AlertDialog.Builder(ctx);
+                alert.setTitle("Conteúdo:");
+                alert.setMessage("Digite novo o conteúdo do nó");
+
+                // Create EditView
+                final EditText input = new EditText(ctx);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+                alert.setView(input);
+
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String nova = input.getText().toString();
+                        filhosAtuais.get(i).setContent(nova);
+                    }
+                });
+
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Toast.makeText(ctx, "CANCELADO", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                alert.show();
             }
         }));
     }
