@@ -8,22 +8,24 @@ public class Node {
     private int cod;
     private String content;
 
-    /**
-     * Constructor
-     * @param content
-     */
-    public Node(String content) {
-        this.content = content;
-    }
-
-    /**
-     * Constructor
+    /** Constructor
      * @param father
      * @param content
+     * @param brothers
      */
-    public Node(Node father, String content) {
+    public Node(Node father, String content, int brothers) {
         this.father = father;
         this.content = content;
+        setCod(brothers +1);
+    }
+
+    /** Constructor
+     * @param content
+     * @param brothers
+     */
+    public Node(String content, int brothers) {
+        setContent(content);
+        setCod(brothers+1);
     }
 
     public Node getFather() {

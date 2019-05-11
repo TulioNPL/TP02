@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerInterface
     LinearLayoutManager meuLayoutManager;
     MeuAdapter adapter;
     private List<Node> nodes = new ArrayList<>();
+    MeuFragment meuFragment = new MeuFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerInterface
     }
 
     public void btnAdd(View V) {
-        Node node = new Node("leitura");
+        Node node = new Node("leitura", nodes.size());
         nodes.add(node);
         adapter.notifyDataSetChanged();
     }
@@ -41,13 +42,22 @@ public class MainActivity extends AppCompatActivity implements RecyclerInterface
         Toast.makeText(this, "kakakakakakak lolololo", Toast.LENGTH_SHORT).show();
     }
 
+    public void btnClose(View V) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.detach(meuFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
     @Override
     public void onItemClick(Object object) {
         Node node = (Node) object;
+        meuFragment = new MeuFragment();
         if(node.isLeaf()){
             FragmentManager manager = getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.fragment_container,new MeuFragment());
+            transaction.replace(R.id.fragment_container,meuFragment);
             transaction.addToBackStack(null);
             transaction.commit();
         } else {
