@@ -1,5 +1,7 @@
 package com.example.trab2_lddm;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +9,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -33,9 +38,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerInterface
     }
 
     public void btnAdd(View V) {
-        Node node = new Node("leitura", nodes.size());
-        nodes.add(node);
-        adapter.notifyDataSetChanged();
+        criaDialog();
     }
 
     public void btnRet(View V) {
@@ -53,15 +56,47 @@ public class MainActivity extends AppCompatActivity implements RecyclerInterface
     @Override
     public void onItemClick(Object object) {
         Node node = (Node) object;
-        meuFragment = new MeuFragment();
+        meuFragment = MeuFragment.newFrag(node.getContent());
         if(node.isLeaf()){
             FragmentManager manager = getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.replace(R.id.fragment_container,meuFragment);
             transaction.addToBackStack(null);
             transaction.commit();
+            //meuFragment.setText(node.getContent());
+            //TextView nodeContent = (TextView) findViewById(R.id.nodeContent);
+            //nodeContent.setText(node.getContent());
         } else {
             //Atualiza a view
         }
+    }
+
+    public void criaDialog() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Conteúdo:");
+        alert.setMessage("Digite o conteúdo do nó");
+
+        // Create EditView
+        final EditText input = new EditText(MainActivity.this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        alert.setView(input);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                Node node = new Node(input.getText().toString(), nodes.size());
+                nodes.add(node);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                Toast.makeText(MainActivity.this, "CANCELADO", Toast.LENGTH_SHORT).show();
+            }
+        });
+        alert.show();
     }
 }
