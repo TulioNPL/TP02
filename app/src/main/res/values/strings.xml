@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">Trab2-LDDM</string>
+    <string name="app_name">Project Numenor</string>
     <string name="add">+</string>
     <string name="returnBtn">RETURN</string>
     <string name="rmChild">-</string>
     <string name="edit">∑dit</string>
-    <string name="imageView">odeio android</string>
+    <string name="imageView">img</string>
     <string name="fragment_container">Node Content</string>
     <string name="close_fragment">Close</string>
 </resources>
