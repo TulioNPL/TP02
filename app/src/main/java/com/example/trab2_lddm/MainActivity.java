@@ -23,8 +23,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerInterface
     RecyclerView meuRecyclerView;
     LinearLayoutManager meuLayoutManager;
     MeuAdapter adapter;
+    MeuAdapter novoAdapter;
     private List<Node> nodes = new ArrayList<>();
+    private List<Node> pais = new ArrayList<>();
     MeuFragment meuFragment = new MeuFragment();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,20 +41,28 @@ public class MainActivity extends AppCompatActivity implements RecyclerInterface
         meuRecyclerView.setAdapter(adapter);
     }
 
+    /**
+     * OnClick do botao Add
+     * @param V, View
+     */
     public void btnAdd(View V) {
         criaDialog();
     }
 
+    /**
+     * OnClick do botao Return
+     * @param V, View
+     */
     public void btnRet(View V) {
-        Node node = nodes.get(0);
-        if(node.getFather() != null && node.getFather().getFather() != null) {
-            MeuAdapter novoAdapter = new MeuAdapter(this, node.getFather().getFather().getChildren(), this); //Pega a lista de filhos do avo
-            meuRecyclerView.setAdapter(novoAdapter);
-        } else {
-            Toast.makeText(this, "Impossível retornar mais!", Toast.LENGTH_SHORT).show();
-        }
+        nodes = pais;
+        novoAdapter = new MeuAdapter(this, pais, this);
+        meuRecyclerView.setAdapter(novoAdapter);
     }
 
+    /**
+     * OnClick do botao Close
+     * @param V, View
+     */
     public void btnClose(View V) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -72,11 +83,16 @@ public class MainActivity extends AppCompatActivity implements RecyclerInterface
             transaction.commit();
         } else {
             //Atualiza a view
-            MeuAdapter novoAdapter = new MeuAdapter(this, node.getChildren(), this);
+            pais = nodes;
+            nodes = node.getChildren();
+            novoAdapter = new MeuAdapter(this, node.getChildren(), this);
             meuRecyclerView.setAdapter(novoAdapter);
         }
     }
 
+    /**
+     * Cria uma Dialog para receber os dados de um novo no
+     */
     public void criaDialog() {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Conteúdo:");
@@ -95,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerInterface
                 Node node = new Node(input.getText().toString(), nodes.size());
                 nodes.add(node);
                 adapter.notifyDataSetChanged();
+                if(novoAdapter != null) novoAdapter.notifyDataSetChanged();
             }
         });
 

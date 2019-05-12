@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+/**
+ * Classe MeuFragment
+ */
 public class MeuFragment extends Fragment {
     private TextView txtContent;
     private static final String nContent = "content";
@@ -16,6 +19,11 @@ public class MeuFragment extends Fragment {
 
     public MeuFragment() {}
 
+    /**
+     * Retorna uma instancia do fragment
+     * @param content, String com conteudo
+     * @return MeuFragment
+     */
     public static MeuFragment newFrag(String content) {
         MeuFragment fragment = new MeuFragment();
         Bundle args = new Bundle();

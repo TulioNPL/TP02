@@ -15,12 +15,21 @@ import android.widget.Toast;
 
 import java.util.List;
 
+/**
+ * Classe MeuAdapter
+ */
 public class MeuAdapter extends RecyclerView.Adapter<MeuAdapter.MeuViewHolder> {
 
     public static RecyclerInterface recyclerInterface;
     Context ctx;
     private List<Node> filhosAtuais;
 
+    /**
+     * Construtor
+     * @param ctx, Context
+     * @param lista, Lista de nos
+     * @param clickRecyclerInterface, RecyclerInterface
+     */
     public MeuAdapter (Context ctx, List<Node> lista, RecyclerInterface clickRecyclerInterface) {
         this.ctx = ctx;
         this.filhosAtuais = lista;
@@ -125,6 +134,10 @@ public class MeuAdapter extends RecyclerView.Adapter<MeuAdapter.MeuViewHolder> {
         protected Button delBtn;
         protected Button addBtn;
 
+        /**
+         * Construtor
+         * @param itemView, View
+         */
         public MeuViewHolder(final View itemView) {
             super(itemView);
             txt = itemView.findViewById(R.id.txt);

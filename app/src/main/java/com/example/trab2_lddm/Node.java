@@ -2,11 +2,23 @@ package com.example.trab2_lddm;
 
 import java.util.ArrayList;
 
+/**
+ * Classe Node
+ */
 public class Node {
     private Node father;
     private ArrayList<Node> children = new ArrayList<Node>();
     private int cod;
     private String content;
+
+    /**
+     * Construtor vazio
+     */
+    public Node(){
+        this.father = null;
+        this.content = "raiz";
+        setCod(-1);
+    }
 
     /** Constructor
      * @param father
@@ -61,8 +73,8 @@ public class Node {
     }
 
     /**
-     *
-     * @return
+     * Retorna se o no eh uma folha
+     * @return boolean
      */
     public boolean isLeaf() {
         return children.isEmpty();
