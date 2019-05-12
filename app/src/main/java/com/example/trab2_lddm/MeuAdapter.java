@@ -78,6 +78,40 @@ public class MeuAdapter extends RecyclerView.Adapter<MeuAdapter.MeuViewHolder> {
                 alert.show();
             }
         }));
+
+        viewHolder.addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Node parent = filhosAtuais.get(i);
+                AlertDialog.Builder alert = new AlertDialog.Builder(ctx);
+                alert.setTitle("Conteúdo:");
+                alert.setMessage("Digite o conteúdo do nó");
+
+                // Create EditView
+                final EditText input = new EditText(ctx);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+                alert.setView(input);
+
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Node newChild = new Node(input.getText().toString(), parent.getChildren().size());
+                        parent.getChildren().add(newChild);
+                        int teste = parent.getChildren().size();
+                        Toast.makeText(ctx, "Num de filhos:"+teste, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Toast.makeText(ctx, "CANCELADO", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                alert.show();
+            }
+        });
     }
 
     @Override
@@ -89,12 +123,14 @@ public class MeuAdapter extends RecyclerView.Adapter<MeuAdapter.MeuViewHolder> {
         protected TextView txt;
         protected Button editBtn;
         protected Button delBtn;
+        protected Button addBtn;
 
         public MeuViewHolder(final View itemView) {
             super(itemView);
             txt = itemView.findViewById(R.id.txt);
             editBtn = itemView.findViewById(R.id.edit);
             delBtn = itemView.findViewById(R.id.rmChild);
+            addBtn = itemView.findViewById(R.id.addChild);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
