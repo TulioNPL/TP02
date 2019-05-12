@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,7 +43,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerInterface
     }
 
     public void btnRet(View V) {
-        Toast.makeText(this, "kakakakakakak lolololo", Toast.LENGTH_SHORT).show();
+        Node node = nodes.get(0);
+        if(node.getFather() != null && node.getFather().getFather() != null) {
+            MeuAdapter novoAdapter = new MeuAdapter(this, node.getFather().getFather().getChildren(), this); //Pega a lista de filhos do avo
+            meuRecyclerView.setAdapter(novoAdapter);
+        } else {
+            Toast.makeText(this, "Impossível retornar mais!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void btnClose(View V) {
@@ -63,11 +70,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerInterface
             transaction.replace(R.id.fragment_container,meuFragment);
             transaction.addToBackStack(null);
             transaction.commit();
-            //meuFragment.setText(node.getContent());
-            //TextView nodeContent = (TextView) findViewById(R.id.nodeContent);
-            //nodeContent.setText(node.getContent());
         } else {
             //Atualiza a view
+            MeuAdapter novoAdapter = new MeuAdapter(this, node.getChildren(), this);
+            meuRecyclerView.setAdapter(novoAdapter);
         }
     }
 
